@@ -26,7 +26,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
   bool isHovered = false;
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final bool isMobile = !Responsive.isDesktop(context);
     return MouseRegion(
       cursor: SystemMouseCursors.grab,
       onEnter: (event) {

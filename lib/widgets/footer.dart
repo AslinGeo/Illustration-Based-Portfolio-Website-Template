@@ -8,7 +8,7 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final bool isMobile = !Responsive.isDesktop(context);
     return Container(
       color: AppColors.black,
 

@@ -25,7 +25,7 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final bool isMobile = !Responsive.isDesktop(context);
     return isMobile
         ? Column(
             spacing: 40,

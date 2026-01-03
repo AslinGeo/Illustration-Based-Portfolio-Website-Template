@@ -11,11 +11,20 @@ import 'package:illustration_based_portfolio/widgets/text_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
-class ContactMe extends StatelessWidget {
-  ContactMe({super.key});
+class ContactMe extends StatefulWidget {
+  const ContactMe({super.key});
+
+  @override
+  State<ContactMe> createState() => _ContactMeState();
+}
+
+class _ContactMeState extends State<ContactMe> {
   TextEditingController nameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController messageController = TextEditingController();
+
   final GlobalKey<FormState> contactFormKey = GlobalKey<FormState>();
 
   Future<void> launchLink(String url) async {
@@ -27,30 +36,34 @@ class ContactMe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
     return Container(
       color: AppColors.white,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 20 : 80,
-          vertical: isMobile ? 40 : 80,
+          horizontal: !Responsive.isDesktop(context) ? 20 : 80,
+          vertical: !Responsive.isDesktop(context) ? 40 : 80,
         ),
-        child: LayoutBuilder(
-          builder: (context, constrain) {
-            return isMobile
-                ? Column(
-                    spacing: 40,
-                    children: [formFields(isMobile), content(isMobile)],
-                  )
-                : Row(
-                    spacing: 50,
-                    children: [
-                      Flexible(flex: 1, child: formFields(isMobile)),
-                      Flexible(flex: 1, child: content(isMobile)),
-                    ],
-                  );
-          },
-        ),
+        child: !Responsive.isDesktop(context)
+            ? Column(
+                spacing: 40,
+                children: [
+                  formFields(!Responsive.isDesktop(context)),
+                  content(!Responsive.isDesktop(context)),
+                ],
+              )
+            : Row(
+                spacing: 50,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: formFields(!Responsive.isDesktop(context)),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: content(!Responsive.isDesktop(context)),
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -107,8 +120,36 @@ class ContactMe extends StatelessWidget {
             ],
           ),
         ),
-        isMobile
-            ? CommonButton(
+        Visibility(
+          visible: isMobile,
+          child: CommonButton(
+            radius: 4,
+            width: isMobile ? 150 : 170,
+            height: 60,
+            text: "Get In Touch",
+            onPressed: () {
+              if (contactFormKey.currentState!.validate()) {
+                sendEmailJS(
+                  name: nameController.text,
+                  email: emailController.text,
+                  message: messageController.text,
+                );
+                setState(() {
+                  nameController.clear();
+                  emailController.clear();
+                  messageController.clear();
+                });
+              }
+            },
+            backgroundColor: AppColors.black,
+          ),
+        ),
+        Row(
+          spacing: isMobile ? 10 : 20,
+          children: [
+            Visibility(
+              visible: !isMobile,
+              child: CommonButton(
                 radius: 4,
                 width: isMobile ? 150 : 170,
                 height: 60,
@@ -120,32 +161,16 @@ class ContactMe extends StatelessWidget {
                       email: emailController.text,
                       message: messageController.text,
                     );
+                    setState(() {
+                      nameController.clear();
+                      emailController.clear();
+                      messageController.clear();
+                    });
                   }
                 },
                 backgroundColor: AppColors.black,
-              )
-            : SizedBox.shrink(),
-        Row(
-          spacing: isMobile ? 10 : 20,
-          children: [
-            isMobile
-                ? SizedBox.shrink()
-                : CommonButton(
-                    radius: 4,
-                    width: isMobile ? 150 : 170,
-                    height: 60,
-                    text: "Get In Touch",
-                    onPressed: () {
-                      if (contactFormKey.currentState!.validate()) {
-                        sendEmailJS(
-                          name: nameController.text,
-                          email: emailController.text,
-                          message: messageController.text,
-                        );
-                      }
-                    },
-                    backgroundColor: AppColors.black,
-                  ),
+              ),
+            ),
             ContactWidget(
               height: isMobile ? 48 : 56,
               width: isMobile ? 48 : 56,

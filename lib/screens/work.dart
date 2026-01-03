@@ -27,13 +27,13 @@ class _WorkScreenState extends State<WorkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final bool isMobile = !Responsive.isDesktop(context);
     return Container(
       color: AppColors.black,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 40 : 80,
-          vertical: isMobile ? 10 : 40,
+          vertical: isMobile ? 30 : 40,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

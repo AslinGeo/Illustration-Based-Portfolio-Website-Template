@@ -24,7 +24,7 @@ class WebLinkPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final bool isMobile = !Responsive.isDesktop(context);
     return FutureBuilder(
       future: fetchLinkPreview(url),
       builder: (context, snapshot) {

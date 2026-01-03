@@ -5,6 +5,7 @@ import 'package:illustration_based_portfolio/data/model/personal_data.dart';
 import 'package:illustration_based_portfolio/widgets/contact_widget.dart';
 import 'package:illustration_based_portfolio/widgets/outline_text.dart';
 import 'package:illustration_based_portfolio/widgets/text.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart' show launchUrl, LaunchMode;
 
 class HomeScreen extends StatelessWidget {
@@ -12,27 +13,32 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
-    final bool isTablet = Responsive.isTablet(context);
-    final bool isDesktop = Responsive.isDesktop(context);
+    final bool isMobile = !Responsive.isDesktop(context);
+
     return Container(
       color: AppColors.white,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 80),
         child: isMobile
-            ? Column(
+            ? Stack(
                 children: [
-                  Image.asset(
-                    'asset/images/Banner.png',
-                    height: 350,
-                    width: 350,
+                  Lottie.asset('asset/lottie/Birds.json'),
+                  Column(
+                    children: [
+                      Image.asset(
+                        'asset/images/Banner.png',
+                        height: 350,
+                        width: 350,
+                      ),
+                      HomeInfo(isMobile: isMobile),
+                    ],
                   ),
-                  HomeInfo(isMobile: isMobile),
                 ],
               )
             : Stack(
                 fit: StackFit.loose,
                 children: [
+                  Lottie.asset('asset/lottie/Birds.json'),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: HomeInfo(isMobile: isMobile),

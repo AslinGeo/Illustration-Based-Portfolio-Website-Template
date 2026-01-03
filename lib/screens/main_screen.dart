@@ -65,12 +65,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = Responsive.isMobile(context);
+    final bool isMobile = !Responsive.isDesktop(context);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(isMobile ? 60 : 180),
+        preferredSize: Size.fromHeight(isMobile ? 100 : 180),
         child: AppBarWidget(
           activeIndex: _activeIndex,
           onTap: _scrollToSection,

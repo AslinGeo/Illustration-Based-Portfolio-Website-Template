@@ -8,7 +8,7 @@ Future<void> sendEmailJS({
   required String message,
 }) async {
   const String serviceId = 'service_6egheug';
-  const String templateId = 'template_heo93oa';
+  const String templateId = 'template_7tmdyxp';
   const String publicKey = 'PzLSoYeQXicY901L8';
 
   try {
@@ -52,7 +52,7 @@ Future<void> replyEmailJS({
   required String message,
 }) async {
   const String serviceId = 'service_6egheug';
-  const String templateId = 'template_52n6zo9';
+  const String templateId = 'template_xgtrxda';
   const String publicKey = 'PzLSoYeQXicY901L8';
 
   try {
