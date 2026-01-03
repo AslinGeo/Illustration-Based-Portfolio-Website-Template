@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:illustration_based_portfolio/core/app_colors.dart';
-import 'package:illustration_based_portfolio/core/responsive.dart';
 import 'package:illustration_based_portfolio/widgets/text.dart';
 
 class ContactWidget extends StatefulWidget {
@@ -73,7 +72,7 @@ class _ContactWidgetState extends State<ContactWidget> {
 
                     TextWidget(
                       text: widget.title!,
-                      size: responsiveFont(context, 20),
+                      size: 20,
                       weight: FontWeight.bold,
                       color: isHovered ? AppColors.white : AppColors.black,
                     ),

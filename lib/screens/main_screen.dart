@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:illustration_based_portfolio/core/app_colors.dart';
+import 'package:illustration_based_portfolio/core/responsive.dart';
 import 'package:illustration_based_portfolio/screens/about_me.dart';
 import 'package:illustration_based_portfolio/screens/contact.dart';
 import 'package:illustration_based_portfolio/screens/experience.dart';
@@ -7,6 +8,7 @@ import 'package:illustration_based_portfolio/screens/home.dart';
 import 'package:illustration_based_portfolio/screens/skills.dart';
 import 'package:illustration_based_portfolio/screens/work.dart';
 import 'package:illustration_based_portfolio/widgets/app_bar.dart';
+import 'package:illustration_based_portfolio/widgets/app_drawer.dart';
 import 'package:illustration_based_portfolio/widgets/footer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -18,7 +20,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final ScrollController _scrollController = ScrollController();
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _activeIndex = 0;
 
   final List<GlobalKey> sectionKeys = [
@@ -63,33 +65,32 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(180),
-        child: AppBarWidget(activeIndex: _activeIndex, onTap: _scrollToSection),
+        preferredSize: Size.fromHeight(isMobile ? 60 : 180),
+        child: AppBarWidget(
+          activeIndex: _activeIndex,
+          onTap: _scrollToSection,
+          onMenuTap: () => _scaffoldKey.currentState?.openDrawer(),
+        ),
       ),
-
-      // body: SingleChildScrollView(
-      //   controller: _scrollController,
-      //   child: Column(
-      //     crossAxisAlignment: CrossAxisAlignment.stretch,
-      //     children: [
-      //       Container(key: sectionKeys[0], child: HomeScreen()),
-      //       Container(key: sectionKeys[1], child: Skills()),
-      //       Container(key: sectionKeys[2], child: ExperienceScreen()),
-      //       Container(key: sectionKeys[3], child: AboutMe()),
-      //       Container(key: sectionKeys[4], child: WorkScreen()),
-      //       Container(key: sectionKeys[5], child: ContactMe()),
-      //       const Footer(),
-      //     ],
-      //   ),
-      // ),
+      drawer: isMobile
+          ? AppDrawer(
+              activeIndex: _activeIndex,
+              onTap: (index) {
+                _scrollToSection(index);
+                Navigator.pop(context);
+              },
+            )
+          : null,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
-            SizedBox(height: 50),
+            isMobile ? SizedBox.shrink() : SizedBox(height: 50),
             Container(key: sectionKeys[0], child: HomeScreen()),
             Container(key: sectionKeys[1], child: Skills()),
             Container(key: sectionKeys[2], child: ExperienceScreen()),

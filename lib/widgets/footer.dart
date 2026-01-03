@@ -8,24 +8,30 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return Container(
       color: AppColors.black,
 
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20 : 80,
+          vertical: 20,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextWidget(
-              text: "© 2026 Aslin Geo. All rights reserved.",
+              text: isMobile
+                  ? "© 2026 Aslin Geo.\n All rights reserved."
+                  : "© 2026 Aslin Geo. All rights reserved.",
               color: AppColors.white,
-              size: responsiveFont(context, 16),
+              size: 16,
               weight: FontWeight.w600,
             ),
             TextWidget(
               text: "Made in Flutter ❤️",
               color: AppColors.white,
-              size: responsiveFont(context, 16),
+              size: 16,
               weight: FontWeight.w600,
             ),
           ],

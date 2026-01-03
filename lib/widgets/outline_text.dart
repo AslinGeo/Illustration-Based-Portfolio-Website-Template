@@ -4,8 +4,9 @@ import 'package:illustration_based_portfolio/core/app_colors.dart';
 
 class OutlineTextPainter extends CustomPainter {
   final String text;
+  final double? fontSize;
 
-  OutlineTextPainter(this.text);
+  OutlineTextPainter(this.text, this.fontSize);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -19,13 +20,13 @@ class OutlineTextPainter extends CustomPainter {
       ..color = Colors.white;
 
     final textStyleStroke = TextStyle(
-      fontSize: 48,
+      fontSize: fontSize,
       fontFamily: GoogleFonts.sora().fontFamily,
       foreground: strokePaint,
     );
 
     final textStyleFill = TextStyle(
-      fontSize: 48,
+      fontSize: fontSize,
       fontFamily: GoogleFonts.sora().fontFamily,
       foreground: fillPaint,
     );
@@ -50,4 +51,3 @@ class OutlineTextPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-

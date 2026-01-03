@@ -27,166 +27,205 @@ class ContactMe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return Container(
       color: AppColors.white,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 80),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20 : 80,
+          vertical: isMobile ? 40 : 80,
+        ),
         child: LayoutBuilder(
           builder: (context, constrain) {
-            return Row(
-              spacing: 50,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    spacing: 10,
+            return isMobile
+                ? Column(
+                    spacing: 40,
+                    children: [formFields(isMobile), content(isMobile)],
+                  )
+                : Row(
+                    spacing: 50,
                     children: [
-                      Form(
-                        key: contactFormKey,
-                        child: Column(
-                          spacing: 10,
-                          children: [
-                            AppTextField(
-                              controller: nameController,
-                              label: "Your Name",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your name';
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.name,
-                            ),
-                            AppTextField(
-                              controller: emailController,
-                              label: "Email Address",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
-                                }
-                                // Simple email validation
-                                if (!RegExp(
-                                  r'^[^@]+@[^@]+\.[^@]+',
-                                ).hasMatch(value)) {
-                                  return 'Please enter a valid email address';
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            AppTextField(
-                              controller: messageController,
-                              label: "How can I help?*",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your message';
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.text,
-                              maxLines: 7,
-                              textInputAction: TextInputAction.done,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        spacing: 20,
-                        children: [
-                          CommonButton(
-                            radius: 4,
-                            width: 170,
-                            height: 60,
-                            text: "Get In Touch",
-                            onPressed: () {
-                              if (contactFormKey.currentState!.validate()) {
-                                sendEmailJS(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  message: messageController.text,
-                                );
-                              }
-                            },
-                            backgroundColor: AppColors.black,
-                          ),
-                          ContactWidget(
-                            svgPath: "asset/svg/gmail.svg",
-                            onTap: () => launchLink(
-                              "mailto:aslingeos@gmail.com?subject=Portfolio Contact",
-                            ),
-                          ),
-                          ContactWidget(
-                            svgPath: "asset/svg/linkedin.svg",
-                            onTap: () => launchLink(PersonalData.linkedIn),
-                          ),
-                          ContactWidget(
-                            svgPath: "asset/svg/github.svg",
-                            onTap: () => launchLink(PersonalData.github),
-                          ),
-                          ContactWidget(
-                            svgPath: "asset/svg/whatsapp.svg",
-                            onTap: () =>
-                                launchLink("https://wa.me/918220398554"),
-                          ),
-                          ContactWidget(
-                            svgPath: "asset/svg/call.svg",
-                            onTap: () => launchLink("tel:+918220398554"),
-                          ),
-                        ],
-                      ),
+                      Flexible(flex: 1, child: formFields(isMobile)),
+                      Flexible(flex: 1, child: content(isMobile)),
                     ],
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Row(
-                        spacing: 20,
-                        children: [
-                          TextWidget(
-                            text: "Let’s",
-                            size: responsiveFont(context, 48),
-                            weight: FontWeight.w800,
-                          ),
-                          CustomPaint(
-                            size: const Size(100, 60),
-                            painter: OutlineTextPainter('talk'),
-                          ),
-                          TextWidget(
-                            text: "for",
-                            size: responsiveFont(context, 48),
-                            weight: FontWeight.w800,
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        spacing: 20,
-                        children: [
-                          TextWidget(
-                            text: "Something special",
-                            size: responsiveFont(context, 48),
-                            weight: FontWeight.w800,
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 40),
-                      TextWidget(
-                        text:
-                            "I seek to push the limits of creativity to create high-engaging, user-friendly, and memorable interactive experiences.",
-                        size: responsiveFont(context, 16),
-                        weight: FontWeight.normal,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
+                  );
           },
         ),
       ),
+    );
+  }
+
+  Widget formFields(bool isMobile) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
+      children: [
+        Form(
+          key: contactFormKey,
+          child: Column(
+            spacing: 10,
+            children: [
+              AppTextField(
+                controller: nameController,
+                label: "Your Name",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.name,
+              ),
+              AppTextField(
+                controller: emailController,
+                label: "Email Address",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  // Simple email validation
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Please enter a valid email address';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              AppTextField(
+                controller: messageController,
+                label: "How can I help?*",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your message';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+                maxLines: 7,
+                textInputAction: TextInputAction.done,
+              ),
+            ],
+          ),
+        ),
+        isMobile
+            ? CommonButton(
+                radius: 4,
+                width: isMobile ? 150 : 170,
+                height: 60,
+                text: "Get In Touch",
+                onPressed: () {
+                  if (contactFormKey.currentState!.validate()) {
+                    sendEmailJS(
+                      name: nameController.text,
+                      email: emailController.text,
+                      message: messageController.text,
+                    );
+                  }
+                },
+                backgroundColor: AppColors.black,
+              )
+            : SizedBox.shrink(),
+        Row(
+          spacing: isMobile ? 10 : 20,
+          children: [
+            isMobile
+                ? SizedBox.shrink()
+                : CommonButton(
+                    radius: 4,
+                    width: isMobile ? 150 : 170,
+                    height: 60,
+                    text: "Get In Touch",
+                    onPressed: () {
+                      if (contactFormKey.currentState!.validate()) {
+                        sendEmailJS(
+                          name: nameController.text,
+                          email: emailController.text,
+                          message: messageController.text,
+                        );
+                      }
+                    },
+                    backgroundColor: AppColors.black,
+                  ),
+            ContactWidget(
+              height: isMobile ? 48 : 56,
+              width: isMobile ? 48 : 56,
+              svgPath: "asset/svg/gmail.svg",
+              onTap: () => launchLink(
+                "mailto:aslingeos@gmail.com?subject=Portfolio Contact",
+              ),
+            ),
+            ContactWidget(
+              height: isMobile ? 48 : 56,
+              width: isMobile ? 48 : 56,
+              svgPath: "asset/svg/linkedin.svg",
+              onTap: () => launchLink(PersonalData.linkedIn),
+            ),
+            ContactWidget(
+              height: isMobile ? 48 : 56,
+              width: isMobile ? 48 : 56,
+              svgPath: "asset/svg/github.svg",
+              onTap: () => launchLink(PersonalData.github),
+            ),
+            ContactWidget(
+              height: isMobile ? 48 : 56,
+              width: isMobile ? 48 : 56,
+              svgPath: "asset/svg/whatsapp.svg",
+              onTap: () => launchLink("https://wa.me/918220398554"),
+            ),
+            ContactWidget(
+              height: isMobile ? 48 : 56,
+              width: isMobile ? 48 : 56,
+              svgPath: "asset/svg/call.svg",
+              onTap: () => launchLink("tel:+918220398554"),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget content(bool isMobile) {
+    return Column(
+      children: [
+        Row(
+          spacing: 20,
+          children: [
+            TextWidget(
+              text: "Let’s",
+              size: isMobile ? 24 : 48,
+              weight: FontWeight.w800,
+            ),
+            CustomPaint(
+              size: Size(isMobile ? 40 : 100, isMobile ? 30 : 60),
+              painter: OutlineTextPainter('talk', isMobile ? 24 : 48),
+            ),
+            TextWidget(
+              text: "for",
+              size: isMobile ? 24 : 48,
+              weight: FontWeight.w800,
+            ),
+          ],
+        ),
+
+        Row(
+          spacing: 20,
+          children: [
+            TextWidget(
+              text: "Something special",
+              size: isMobile ? 24 : 48,
+              weight: FontWeight.w800,
+            ),
+          ],
+        ),
+
+        SizedBox(height: 40),
+        TextWidget(
+          text:
+              "I seek to push the limits of creativity to create high-engaging, user-friendly, and memorable interactive experiences.",
+          size: 16,
+          weight: FontWeight.normal,
+        ),
+      ],
     );
   }
 }

@@ -26,6 +26,7 @@ class _ExperienceCardState extends State<ExperienceCard> {
   bool isHovered = false;
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return MouseRegion(
       cursor: SystemMouseCursors.grab,
       onEnter: (event) {
@@ -50,8 +51,12 @@ class _ExperienceCardState extends State<ExperienceCard> {
           border: Border.all(color: AppColors.zinc300, width: 1),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 10 : 20,
+            vertical: 10,
+          ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,25 +64,37 @@ class _ExperienceCardState extends State<ExperienceCard> {
                   Row(
                     spacing: 20,
                     children: [
-                      Image.asset(widget.imagePath, height: 40),
+                      Image.asset(widget.imagePath, height: isMobile ? 20 : 40),
 
                       TextWidget(
                         text: widget.title,
-                        size: responsiveFont(context, 24),
+                        size: isMobile ? 20 : 24,
                         color: AppColors.white,
                         weight: FontWeight.w600,
                       ),
                     ],
                   ),
-                  TextWidget(
-                    text: widget.duration,
-                    size: responsiveFont(context, 16),
-                    weight: FontWeight.w600,
-                    color: AppColors.zinc300,
-                  ),
+                  isMobile
+                      ? SizedBox.shrink()
+                      : TextWidget(
+                          text: widget.duration,
+                          size: 16,
+                          weight: FontWeight.w600,
+                          color: AppColors.zinc300,
+                        ),
                 ],
               ),
-
+              isMobile
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: TextWidget(
+                        text: widget.duration,
+                        size: 16,
+                        weight: FontWeight.w600,
+                        color: AppColors.zinc300,
+                      ),
+                    )
+                  : SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Column(
@@ -88,14 +105,14 @@ class _ExperienceCardState extends State<ExperienceCard> {
                         TextWidget(
                           text: "• ",
                           color: AppColors.zinc300,
-                          size: responsiveFont(context, 16),
+                          size: 16,
                           weight: FontWeight.normal,
                         ),
                         Expanded(
                           child: TextWidget(
                             text: point,
                             color: AppColors.zinc300,
-                            size: responsiveFont(context, 16),
+                            size: 16,
                             weight: FontWeight.normal,
                           ),
                         ),

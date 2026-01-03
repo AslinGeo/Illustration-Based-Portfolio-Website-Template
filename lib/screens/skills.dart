@@ -32,10 +32,14 @@ class Skills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return Container(
       color: AppColors.white,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20 : 80,
+          vertical: isMobile ? 10 : 40,
+        ),
         child: Column(
           spacing: 40,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,13 +50,14 @@ class Skills extends StatelessWidget {
               children: [
                 TextWidget(
                   text: "My",
-                  size: responsiveFont(context, 48),
+                  size: isMobile ? 24 : 48,
                   weight: FontWeight.normal,
                 ),
 
                 TextWidget(
                   text: "Skills",
-                  size: responsiveFont(context, 48),
+                  size: isMobile ? 24 : 48,
+
                   weight: FontWeight.w800,
                 ),
               ],
@@ -62,7 +67,7 @@ class Skills extends StatelessWidget {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 6,
+                crossAxisCount: isMobile ? 2 : 6,
                 mainAxisSpacing: 30,
                 crossAxisSpacing: 30,
                 childAspectRatio: 1.5,

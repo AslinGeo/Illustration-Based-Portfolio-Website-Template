@@ -40,13 +40,13 @@ class AppTextField extends StatelessWidget {
           fontWeight: FontWeight.w500,
           color: AppColors.black,
           fontFamily: GoogleFonts.sora().fontFamily,
-          fontSize: responsiveFont(context, 12),
+          fontSize: 12,
         ),
         hintStyle: hint != null
             ? TextStyle(
                 color: AppColors.zinc300,
                 fontFamily: GoogleFonts.sora().fontFamily,
-                fontSize: responsiveFont(context, 16),
+                fontSize: 16,
               )
             : null,
         focusedBorder: const OutlineInputBorder(

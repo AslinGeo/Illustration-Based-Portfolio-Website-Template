@@ -1,76 +1,3 @@
-// import 'package:illustration_based_portfolio/core/app_colors.dart';
-// import 'package:illustration_based_portfolio/core/responsive.dart';
-// import 'package:illustration_based_portfolio/data/model/personal_data.dart';
-
-// import 'package:illustration_based_portfolio/widgets/text.dart';
-
-// import 'package:flutter/material.dart';
-// import 'package:illustration_based_portfolio/widgets/web_link_preview.dart';
-
-// class WorkScreen extends StatelessWidget {
-//   const WorkScreen({super.key});
-//   static const List<Map<String, String>> works = [
-//     {"url": PersonalData.joggleCustomer},
-//     {"url": PersonalData.jogglePatner},
-//     {"url": PersonalData.mythings},
-//     {"url": PersonalData.ramzTrading},
-//     {"url": PersonalData.fitFresh},
-//   ];
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppColors.black,
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
-//         child: Column(
-//           spacing: 40,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               spacing: 10,
-//               children: [
-//                 TextWidget(
-//                   text: "My",
-//                   size: responsiveFont(context, 48),
-//                   weight: FontWeight.normal,
-//                   color: AppColors.white,
-//                 ),
-
-//                 TextWidget(
-//                   text: "Projects",
-//                   size: responsiveFont(context, 48),
-//                   weight: FontWeight.w800,
-//                   color: AppColors.white,
-//                 ),
-//               ],
-//             ),
-//             // ProjectCard(isLeftAligned: true),
-//             // ProjectCard(isLeftAligned: false),
-//             // ProjectCard(isLeftAligned: true),
-//             // ProjectCard(isLeftAligned: false),
-//             Expanded(
-//               child: ListView.builder(
-//                 physics: NeverScrollableScrollPhysics(),
-//                 itemCount: works.length,
-//                 itemBuilder: (context, index) {
-//                   return Padding(
-//                     padding: const EdgeInsets.only(bottom: 20),
-//                     child: WebLinkPreview(
-//                       url: works[index]["url"]!,
-//                       index: index,
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -100,10 +27,14 @@ class _WorkScreenState extends State<WorkScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return Container(
       color: AppColors.black,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 40 : 80,
+          vertical: isMobile ? 10 : 40,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -113,14 +44,14 @@ class _WorkScreenState extends State<WorkScreen> {
               children: [
                 TextWidget(
                   text: "My",
-                  size: responsiveFont(context, 48),
+                  size: isMobile ? 24 : 48,
                   weight: FontWeight.normal,
                   color: AppColors.white,
                 ),
                 const SizedBox(width: 10),
                 TextWidget(
                   text: "Projects",
-                  size: responsiveFont(context, 48),
+                  size: isMobile ? 24 : 48,
                   weight: FontWeight.w800,
                   color: AppColors.white,
                 ),
@@ -136,10 +67,11 @@ class _WorkScreenState extends State<WorkScreen> {
                 return WebLinkPreview(url: works[index]["url"]!, index: index);
               },
               options: CarouselOptions(
-                height: 400,
-                viewportFraction: 0.75,
+                height: isMobile ? 500 : 400,
+
                 enlargeCenterPage: true,
                 enableInfiniteScroll: false,
+                autoPlay: true,
                 scrollPhysics: const BouncingScrollPhysics(),
                 onPageChanged: (index, reason) {
                   setState(() => _currentIndex = index);

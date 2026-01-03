@@ -25,49 +25,60 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 40,
-      children: [
-        Image.network(projectImage, height: 200, width: 200),
-
-        Expanded(
-          child: Column(
-            spacing: 30,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    final bool isMobile = Responsive.isMobile(context);
+    return isMobile
+        ? Column(
+            spacing: 40,
             children: [
-              TextWidget(
-                text: "0${projectIndex + 1}",
-                color: AppColors.white,
-                size: responsiveFont(context, 48),
-                weight: FontWeight.w800,
-              ),
-              TextWidget(
-                text: projectTitle,
-                color: AppColors.white,
-                size: responsiveFont(context, 32),
-                weight: FontWeight.bold,
-              ),
-              TextWidget(
-                text: projectDescription,
-                color: AppColors.zinc500,
-                size: responsiveFont(context, 16),
-                weight: FontWeight.normal,
-              ),
-              // ignore: deprecated_member_use
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: () {
-                    launchUrl(Uri.parse(projectLink));
-                  },
-                  child: SvgPicture.asset(
-                    "asset/svg/arrow.svg",
-                    // ignore: deprecated_member_use
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
+              Image.network(projectImage, height: 100, width: 100),
+              Expanded(child: content(isMobile)),
             ],
+          )
+        : Row(
+            spacing: 40,
+            children: [
+              Image.network(projectImage, height: 200, width: 200),
+
+              Expanded(child: content(isMobile)),
+            ],
+          );
+  }
+
+  Widget content(bool isMobile) {
+    return Column(
+      spacing: isMobile ? 10 : 30,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextWidget(
+          text: "0${projectIndex + 1}",
+          color: AppColors.white,
+          size: isMobile ? 24 : 48,
+          weight: FontWeight.w800,
+        ),
+        TextWidget(
+          text: projectTitle,
+          color: AppColors.white,
+          size: isMobile ? 24 : 48,
+          weight: FontWeight.bold,
+        ),
+        TextWidget(
+          text: projectDescription,
+          color: AppColors.zinc500,
+          size: 16,
+          weight: FontWeight.normal,
+        ),
+        // ignore: deprecated_member_use
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              launchUrl(Uri.parse(projectLink));
+            },
+            child: SvgPicture.asset(
+              "asset/svg/arrow.svg",
+              // ignore: deprecated_member_use
+              color: AppColors.white,
+            ),
           ),
         ),
       ],

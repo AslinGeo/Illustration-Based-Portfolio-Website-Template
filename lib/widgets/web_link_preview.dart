@@ -1,4 +1,5 @@
 import 'package:illustration_based_portfolio/core/app_colors.dart';
+import 'package:illustration_based_portfolio/core/responsive.dart';
 import 'package:illustration_based_portfolio/widgets/project_card.dart';
 
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class WebLinkPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return FutureBuilder(
       future: fetchLinkPreview(url),
       builder: (context, snapshot) {
@@ -37,7 +39,7 @@ class WebLinkPreview extends StatelessWidget {
             launchUrl(Uri.parse(url));
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: isMobile ? 0 : 30),
             child: ProjectCard(
               projectImage: data["image"]["url"],
               projectTitle: data['title'] ?? "",

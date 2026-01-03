@@ -20,7 +20,7 @@ class ExperienceScreen extends StatelessWidget {
       ],
     },
     {
-      "title": "Associate Product Engineer",
+      "title": "Product Engineer",
       "company": "Inference Intelligence LLP",
       "duration": "Jul 2024 – Apr 2025",
       "logoPath": "asset/company/inference-logo.png",
@@ -56,10 +56,14 @@ class ExperienceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = Responsive.isMobile(context);
     return Container(
       color: AppColors.black,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20 : 80,
+          vertical: isMobile ? 10 : 40,
+        ),
         child: Column(
           spacing: 40,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,14 +74,14 @@ class ExperienceScreen extends StatelessWidget {
               children: [
                 TextWidget(
                   text: "My",
-                  size: responsiveFont(context, 48),
+                  size: isMobile ? 24 : 48,
                   weight: FontWeight.normal,
                   color: AppColors.white,
                 ),
 
                 TextWidget(
                   text: "Experience",
-                  size: responsiveFont(context, 48),
+                  size: isMobile ? 24 : 48,
                   weight: FontWeight.w800,
                   color: AppColors.white,
                 ),
