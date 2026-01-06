@@ -1,16 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+
+final serviceId = dotenv.env['SERVICE_ID']!;
+final templateId = dotenv.env['TEMPLATE_ID']!;
+final replyTemplateId = dotenv.env['REPLY_TEMPLATE_ID']!;
+
+final publicKey = dotenv.env['PUBLIC_KEY']!;
 
 Future<void> sendEmailJS({
   required String name,
   required String email,
   required String message,
 }) async {
-  const String serviceId = 'service_6egheug';
-  const String templateId = 'template_7tmdyxp';
-  const String publicKey = 'PzLSoYeQXicY901L8';
-
   try {
     final response = await http.post(
       Uri.parse('https://api.emailjs.com/api/v1.0/email/send'),
@@ -51,10 +54,6 @@ Future<void> replyEmailJS({
   required String email,
   required String message,
 }) async {
-  const String serviceId = 'service_6egheug';
-  const String templateId = 'template_xgtrxda';
-  const String publicKey = 'PzLSoYeQXicY901L8';
-
   try {
     final response = await http.post(
       Uri.parse('https://api.emailjs.com/api/v1.0/email/send'),
@@ -64,7 +63,7 @@ Future<void> replyEmailJS({
       },
       body: jsonEncode({
         'service_id': serviceId,
-        'template_id': templateId,
+        'template_id': replyTemplateId,
         'user_id': publicKey,
         'template_params': {
           // Make sure these match EXACTLY the variable names in your EmailJS template
